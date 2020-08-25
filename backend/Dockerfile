@@ -1,4 +1,4 @@
-FROM python3.7 AS local
+FROM python:3.7 AS local
 
 ENV PYTHONBUFFERED 1
 
@@ -12,7 +12,7 @@ COPY . /backend/
 RUN mkdir -p media
 
 
-FROM python3.7 AS prod
+FROM python:3.7 AS prod
 
 ENV PYTHONBUFFERED 1
 
