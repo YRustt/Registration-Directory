@@ -1,0 +1,46 @@
+version: "3.4"
+services:
+  backend:
+    container_name: backend
+    build:
+      context: ./backend/
+      target: local
+    restart: on-failure
+    command: python manage.py runserver 0:8080
+    volumes:
+      - ./backend:/backend
+    depends_on:
+      - postgres
+    networks:
+      - nginx
+      - postgres
+    env_file:
+      - backend/.env-local
+  postgres:
+    container_name: postgres
+    image: "postgres:latest"
+    volumes:
+      - postgres:/var/lib/postgresql/data;
+    networks:
+      - postgres
+    env_file:
+      - postgres/.env-local
+  nginx:
+    container_name: nginx
+    build:
+      context: ./nginx/
+      target: local
+    restart: on-failure
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - nginx
+
+volumes:
+  postgres:
+
+networks:
+  nginx:
+  postgres:
