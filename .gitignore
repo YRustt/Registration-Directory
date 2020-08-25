@@ -1,0 +1,15 @@
+# PyCharm
+.idea/
+
+# CPython
+__pycache__
+
+# pyenv
+.python-version
+
+# SQLite
+db.sqlite3
+
+# Django
+backend/media/
+backend/static/
