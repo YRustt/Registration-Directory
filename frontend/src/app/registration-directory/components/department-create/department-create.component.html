@@ -1,0 +1,22 @@
+<div>
+  <h3>Create Department</h3>
+
+  <div class="form-group">
+    <label>Название отдела</label>
+    <input class="form-control" name="name" placeholder="Название отдела" required [(ngModel)]="name"/>
+  </div>
+
+  <div class="form-group">
+    <label>Описание</label>
+    <textarea class="form-control" name="description" placeholder="Описание" [(ngModel)]="description"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Картинка</label>
+    <input class="form-control" name="image" placeholder="Картинка" type="file" (change)="onImageChanged($event)"/>
+  </div>
+
+  <div class="form-group">
+    <button class="btn btn-default" (click)="createDepartment()">Создать</button>
+  </div>
+</div>

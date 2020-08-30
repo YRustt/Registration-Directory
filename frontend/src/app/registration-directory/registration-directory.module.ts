@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { DepartmentsComponent } from './components/departments/departments.component';
 import { DepartmentDetailComponent } from './components/department-detail/department-detail.component';
+import { DepartmentCreateComponent } from './components/department-create/department-create.component';
 
 
 @NgModule({
@@ -15,7 +16,7 @@ import { DepartmentDetailComponent } from './components/department-detail/depart
     HttpClientModule,
     RouterModule
   ],
-  declarations: [DepartmentsComponent, DepartmentDetailComponent],
-  exports: [DepartmentsComponent, DepartmentDetailComponent]
+  declarations: [DepartmentsComponent, DepartmentDetailComponent, DepartmentCreateComponent],
+  exports: [DepartmentsComponent, DepartmentDetailComponent, DepartmentCreateComponent]
 })
 export class RegistrationDirectoryModule { }
