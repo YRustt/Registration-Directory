@@ -5,7 +5,8 @@ from .views import (
     DepartmentCreateView,
     DepartmentDetailView,
     PersonCreateView,
-    PersonDetailView
+    PersonDetailView,
+    IsAdminView
 )
 
 
@@ -16,4 +17,5 @@ urlpatterns = [
     path("department/<int:pk>/", DepartmentDetailView.as_view(), name="department"),
     path("person/create/", PersonCreateView.as_view(), name="person_create"),
     path("person/<int:pk>/", PersonDetailView.as_view(), name="person"),
+    path("is_admin/", IsAdminView.as_view(), name="is_admin"),
 ]

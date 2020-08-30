@@ -1,5 +1,7 @@
 from rest_framework import generics
 from rest_framework.parsers import MultiPartParser
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
 from .models import Department, Person
 from .serializers import (
@@ -46,3 +48,12 @@ class PersonDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Person.objects.all()
     serializer_class = PersonDetailSerializer
     permission_classes = [IsAdminUserOrReadOnly]
+
+
+class IsAdminView(APIView):
+    permission_classes = [IsAdminUserOrReadOnly]
+
+    def get(self, request, format=None):
+        return Response({
+            "is": request.user.is_staff
+        })
