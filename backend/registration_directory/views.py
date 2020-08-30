@@ -1,4 +1,5 @@
 from rest_framework import generics
+from rest_framework.parsers import MultiPartParser
 
 from .models import Department, Person
 from .serializers import (
@@ -26,6 +27,7 @@ class DepartmentListView(generics.ListAPIView):
 class DepartmentCreateView(generics.CreateAPIView):
     serializer_class = DeparmentCreateSerializer
     permission_classes = [IsAdminUserOrReadOnly]
+    parser_classes = [MultiPartParser]
 
 
 class DepartmentDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -37,6 +39,7 @@ class DepartmentDetailView(generics.RetrieveUpdateDestroyAPIView):
 class PersonCreateView(generics.CreateAPIView):
     serializer_class = PersonDetailSerializer
     permission_classes = [IsAdminUserOrReadOnly]
+    parser_classes = [MultiPartParser]
 
 
 class PersonDetailView(generics.RetrieveUpdateDestroyAPIView):
