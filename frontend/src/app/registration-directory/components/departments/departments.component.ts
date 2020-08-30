@@ -10,7 +10,7 @@ import { DepartmentsService } from './services/departments.service';
   providers: [DepartmentsService]
 })
 export class DepartmentsComponent implements OnInit {
-  main_departments = [];
+  main_departments;
 
   constructor(private departmentsService: DepartmentsService) { }
 

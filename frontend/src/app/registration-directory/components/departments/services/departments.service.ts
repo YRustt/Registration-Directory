@@ -10,7 +10,6 @@ export class DepartmentsService {
   constructor(private http: HttpClient, private loginService: LoginService) { }
 
   getData() {
-    console.log("departments", this.loginService.isLogged();
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
