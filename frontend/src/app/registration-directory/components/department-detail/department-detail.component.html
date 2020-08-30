@@ -1,0 +1,12 @@
+
+<ul *ngFor="let department of departments">
+  <li>
+    <a [routerLink]="['/department', department.id]">{{ department.name }}</a>
+  </li>
+</ul>
+
+<table>
+  <tr *ngFor="let person of staff">
+    <td><img src="{{ person.avatar }}" height="50" width="50"/></td><td>{{ person.surname }}</td><td>{{ person.name }}</td><td>{{ person.patronymic }}</td>
+  </tr>
+</table>

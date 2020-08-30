@@ -1,6 +1,6 @@
 
 <ul *ngFor="let department of main_departments">
   <li>
-    {{ department.name }}
+    <a [routerLink]="['department', department.id]">{{ department.name }}</a>
   </li>
 </ul>
