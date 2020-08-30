@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 
@@ -28,5 +28,17 @@ export class LoginService {
 
   logout() {
     localStorage.removeItem('token');
+  }
+
+  async isAdmin() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'JWT ' + this.getToken()
+      })
+    };
+    var isAdmin = (await this.http.get('api/v1/is_admin/', httpOptions).toPromise())['is'];
+
+    return isAdmin;
   }
 }

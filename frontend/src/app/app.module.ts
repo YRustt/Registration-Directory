@@ -17,11 +17,12 @@ import { LoginComponent } from './auth/components/login/login.component';
 
 import { LoginService } from './auth/components/login/services/login.service';
 import { GuardService } from './auth/components/login/services/guard.service';
+import { IsAdminService } from './auth/components/login/services/is-admin.service';
 
 
 const appRouters: Routes = [
   { path: '', component: DepartmentsComponent, canActivate: [GuardService] },
-  { path: 'department/create', component: DepartmentCreateComponent, canActivate: [GuardService]},
+  { path: 'department/create', component: DepartmentCreateComponent, canActivate: [GuardService, IsAdminService]},
   { path: 'department/:id', component: DepartmentDetailComponent, canActivate: [GuardService]},
   { path: 'login', component: LoginComponent },
   { path: 'about', component: AboutComponent },
@@ -43,7 +44,7 @@ const appRouters: Routes = [
     AuthModule,
     RouterModule.forRoot(appRouters)
   ],
-  providers: [LoginService, GuardService],
+  providers: [LoginService, GuardService, IsAdminService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -37,7 +37,7 @@ export class DepartmentCreateComponent implements OnInit {
 
   createDepartment() {
     this.departmentCreateService.createDepartment(this.name, this.description, this.imageFile, this.main_department).subscribe(data => {
-      this.router.navigate(['department' + data['id']]);
+      this.router.navigate(['department/' + data['id']]);
     });
   }
 }
