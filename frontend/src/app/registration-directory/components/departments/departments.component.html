@@ -1,6 +1,7 @@
-
-<ul *ngFor="let department of main_departments">
-  <li>
-    <a [routerLink]="['department', department.id]">{{ department.name }}</a>
-  </li>
-</ul>
+<div class="departments">
+  <ul *ngFor="let department of main_departments">
+    <li>
+      <a [routerLink]="['department', department.id]">{{ department.name }}</a>
+    </li>
+  </ul>
+</div>

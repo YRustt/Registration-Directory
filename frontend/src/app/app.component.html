@@ -1,11 +1,17 @@
-<div>
+<nav>
+  <ul>
+    <li>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Главная</a>
+    </li>
+    <li>
+      <a routerLink="/about" routerLinkActive="active">О сайте</a>
+    </li>
+    <li [style.float]="'right'">
+      <a routerLink="/login" routerLinkActive="active">Вход</a>
+    </li>
+  </ul>
+</nav>
 
-  <nav>
-    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">Главная</a>
-    <a routerLink="/about" routerLinkActive="active">О сайте</a>
-  </nav>
-
-  <h1>Регистрационный справочник</h1>
-
+<div class="container">
   <router-outlet></router-outlet>
 </div>

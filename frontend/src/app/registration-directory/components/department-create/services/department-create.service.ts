@@ -22,11 +22,11 @@ export class DepartmentCreateService {
     if (description !== null && description !== undefined) {
       formData.append('description', description);
     }
-    if (image !== null && imageg !== undefined) {
+    if (image !== null && image !== undefined) {
       formData.append('image', image, image.name);
     }
     if (main_departments !== null && main_departments !== undefined) {
-      formData.append('main_departments': main_departments);
+      formData.append('main_departments', main_departments);
     }
 
     return this.http.post('api/v1/department/create/', formData, httpOptions);
