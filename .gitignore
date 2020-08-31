@@ -17,3 +17,5 @@ backend/static/
 # docker-compose
 backend/.env-prod
 postgres/.env-prod
+nginx/static/
+nginx/frontend/
