@@ -2,7 +2,8 @@
 <div class="flex-container">
   <div class="left">
     <div class="top-buttons">
-      <a class="top-button" routerLink="/department/create" [queryParams]="{'main_department': department_id}">Создать отдел</a>
+      <a class="top-button" routerLink="/department/create" [queryParams]="{'main_department': department_id}">Добавить отдел</a>
+      <a class="top-button" routerLink="/person/create" [queryParams]="{'department': department_id}">Добавить сотрудника</a>
     </div>
     <ul *ngFor="let department of departments">
       <li>

@@ -1,0 +1,52 @@
+<div>
+  <h3>Добавление сотрудника</h3>
+
+  <div class="form-group">
+    <label>Фамилия</label>
+    <input class="form-control" name="surname" placeholder="Фамилия" [(ngModel)]="surname"/>
+  </div>
+
+  <div class="form-group">
+    <label>Имя</label>
+    <input class="form-control" name="name" placeholder="Имя" [(ngModel)]="name"/>
+  </div>
+
+  <div class="form-group">
+    <label>Отчество</label>
+    <input class="form-control" name="patronymic" placeholder="Отчество" [(ngModel)]="patronymic"/>
+  </div>
+
+  <div class="form-group">
+    <label>Дата рождения</label>
+    <input class="form-control" name="date_of_birth" placeholder="Дата рождения" type="date" [(ngModel)]="date_of_birth"/>
+  </div>
+
+  <div class="form-group">
+    <label>Адрес</label>
+    <textarea class="form-control" name="address" placeholder="Адрес" [(ngModel)]="address"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Домашний телефон</label>
+    <input class="form-control" name="home_phone" type="tel" [(ngModel)]="home_phone"/>
+  </div>
+
+  <div class="form-group">
+    <label>Мобильный телефон</label>
+    <input class="form-control" name="mobile_phone" type="tel" [(ngModel)]="mobile_phone"/>
+  </div>
+
+  <div class="form-group">
+    <label>Email</label>
+    <input class="form-control" name="email" type="email" [(ngModel)]="email"/>
+  </div>
+
+  <div class="form-group">
+    <label>Картинка</label>
+    <input class="form-control" name="avatar" placeholder="Картинка" type="file" (change)="onImageChanged($event)"/>
+  </div>
+
+  <div class="form-group">
+    <button class="btn btn-default" (click)="createPerson()">Создать</button>
+  </div>
+</div>

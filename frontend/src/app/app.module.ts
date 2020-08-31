@@ -13,6 +13,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { DepartmentsComponent } from './registration-directory/components/departments/departments.component';
 import { DepartmentDetailComponent } from './registration-directory/components/department-detail/department-detail.component';
 import { DepartmentCreateComponent } from './registration-directory/components/department-create/department-create.component';
+import { PersonCreateComponent } from './registration-directory/components/person-create/person-create.component';
 import { LoginComponent } from './auth/components/login/login.component';
 
 import { LoginService } from './auth/components/login/services/login.service';
@@ -22,8 +23,9 @@ import { IsAdminService } from './auth/components/login/services/is-admin.servic
 
 const appRouters: Routes = [
   { path: '', component: DepartmentsComponent, canActivate: [GuardService] },
-  { path: 'department/create', component: DepartmentCreateComponent, canActivate: [GuardService, IsAdminService]},
-  { path: 'department/:id', component: DepartmentDetailComponent, canActivate: [GuardService]},
+  { path: 'department/create', component: DepartmentCreateComponent, canActivate: [GuardService, IsAdminService] },
+  { path: 'department/:id', component: DepartmentDetailComponent, canActivate: [GuardService] },
+  { path: 'person/create', component: PersonCreateComponent, canActivate: [GuardService, IsAdminService] },
   { path: 'login', component: LoginComponent },
   { path: 'about', component: AboutComponent },
   { path: '**', component: NotFoundComponent }
