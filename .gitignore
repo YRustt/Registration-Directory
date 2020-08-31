@@ -13,3 +13,7 @@ db.sqlite3
 # Django
 backend/media/
 backend/static/
+
+# docker-compose
+backend/.env-prod
+postgres/.env-prod

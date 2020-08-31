@@ -1,0 +1,57 @@
+version: "3.4"
+services:
+  backend:
+    image: yrustt/registration-directory-backend:${TAG}
+    container_name: backend
+    build:
+      context: ./backend/
+      target: prod
+    restart: always
+    command: gunicorn -b 0.0.0.0:8080 --workers=2 core.wsgi:application
+    volumes:
+      - media:/backend/media
+    depends_on:
+      - postgres
+    networks:
+      - backend
+      - postgres
+    env_file:
+      - backend/.env-prod
+    deploy:
+      replicas: 1
+  postgres:
+    container_name: postgres
+    image: "postgres:latest"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      - postgres
+    env_file:
+      - postgres/.env-prod
+    deploy:
+      replicas: 1
+  nginx:
+    image: yrustt/registration-directory-nginx:${TAG}
+    container_name: nginx
+    build:
+      context: ./nginx/
+      target: prod
+    restart: always
+    volumes:
+      - media:/media
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    networks:
+      - backend
+    deploy:
+      replicas: 1
+
+volumes:
+  postgres:
+  media:
+
+networks:
+  backend:
+  postgres:
