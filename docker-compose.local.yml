@@ -12,15 +12,26 @@ services:
     depends_on:
       - postgres
     networks:
-      - nginx
+      - backend
       - postgres
     env_file:
       - backend/.env-local
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend/
+      target: local
+    restart: on-failure
+    command: ng serve --host=0.0.0.0 --port=4200
+    volumes:
+      - ./frontend:/frontend
+    networks:
+      - frontend
   postgres:
     container_name: postgres
     image: "postgres:latest"
     volumes:
-      - postgres:/var/lib/postgresql/data;
+      - postgres:/var/lib/postgresql/data
     networks:
       - postgres
     env_file:
@@ -35,12 +46,15 @@ services:
       - "80:80"
     depends_on:
       - backend
+      - frontend
     networks:
-      - nginx
+      - backend
+      - frontend
 
 volumes:
   postgres:
 
 networks:
-  nginx:
+  backend:
+  frontend:
   postgres:
