@@ -23,7 +23,7 @@ services:
     container_name: postgres
     image: "postgres:latest"
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
     networks:
       - postgres
     env_file:
@@ -38,7 +38,7 @@ services:
       target: prod
     restart: always
     volumes:
-      - media:/media
+      - media:/media_files
     ports:
       - "80:80"
     depends_on:
@@ -49,7 +49,7 @@ services:
       replicas: 1
 
 volumes:
-  postgres:
+  db-data:
   media:
 
 networks:

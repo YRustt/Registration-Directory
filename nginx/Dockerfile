@@ -7,10 +7,10 @@ FROM nginx:latest AS prod
 
 COPY nginx.prod.conf /etc/nginx/nginx.conf
 
-RUN mkdir /static/
+RUN mkdir -p /static/
 COPY /static/ /static/
 
-RUN mkdir /media/
+RUN mkdir -p /media_files/
 
-RUN mkdir /frontend/
+RUN mkdir -p /frontend/
 COPY /frontend/ /frontend/
