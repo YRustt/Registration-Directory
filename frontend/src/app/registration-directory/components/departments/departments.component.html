@@ -1,4 +1,5 @@
 <div class="departments">
+  <a routerLink="department/create">Создать отдел</a>
   <ul *ngFor="let department of main_departments">
     <li>
       <a [routerLink]="['department', department.id]">{{ department.name }}</a>
