@@ -1,0 +1,85 @@
+name: Deploy
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'image tag'
+        required: true
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Create env files
+        env:
+          DEBUG: ${{ secrets.DEBUG }}
+          ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        run: |
+          mkdir -p backend/
+          touch backend/.env-prod
+          echo "DEBUG=${DEBUG}" > backend/.env-prod
+          echo "ALLOWED_HOSTS=${ALLOWED_HOSTS}" >> backend/.env-prod
+          echo "DB_USER=${DB_USER}" >> backend/.env-prod
+          echo "DB_NAME=${DB_NAME}" >> backend/.env-prod
+          echo "DB_HOST=${DB_HOST}" >> backend/.env-prod
+          echo "DB_PORT=${DB_PORT}" >> backend/.env-prod
+          echo "DB_PASSWORD=${DB_PASSWORD}" >> backend/.env-prod
+          echo "SECRET_KEY=${SECRET_KEY}" >> backend/.env-prod
+          mkdir -p postgres/
+          touch postgres/.env-prod
+          echo "POSTGRES_USER=${POSTGRES_USER}" > postgres/.env-prod
+          echo "POSTGRES_DB=${POSTGRES_DB}" >> postgres/.env-prod
+          echo "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}" >> postgres/.env-pord
+      - name: Copy docker-compose.prod.yml
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "docker-compose.prod.yml"
+          target: "app/"
+      - name: Copy backend env file
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "backend/.env-prod"
+          target: "app/"
+      - name: Copy postgres env file
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "postgres/.env-prod"
+          target: "app/"
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        env:
+          TAG: ${{ github.event.inputs.tag }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          envs: TAG
+          script: |
+            cd app
+            export TAG=${TAG}
+            docker-compose -f docker-compose.prod.yml pull
+            docker-compose -f docker-compose.prod.yml up -d
+            rm backend/.env-prod
+            rm postgres/.env-prod
+            rm docker-compose.prod.yml

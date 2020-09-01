@@ -1,9 +1,10 @@
-name: Build and Deploy
+name: Build and push
 on:
   workflow_dispatch:
     inputs:
       tag:
         description: 'image tag'
+        required: true
 
 jobs:
   build:
