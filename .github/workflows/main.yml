@@ -1,0 +1,76 @@
+name: Build and Deploy
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'image tag'
+
+jobs:
+  build:
+    name: Build and push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Create env files
+        env:
+          DEBUG: ${{ secrets.DEBUG }}
+          ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_NAME: ${{ secrets.DB_NAME }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PORT: ${{ secrets.DB_PORT }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        run: |
+          touch backend/.env-prod
+          echo "DEBUG=${DEBUG}" > backend/.env-prod
+          echo "ALLOWED_HOSTS=${ALLOWED_HOSTS}" >> backend/.env-prod
+          echo "DB_USER=${DB_USER}" >> backend/.env-prod
+          echo "DB_NAME=${DB_NAME}" >> backend/.env-prod
+          echo "DB_HOST=${DB_HOST}" >> backend/.env-prod
+          echo "DB_PORT=${DB_PORT}" >> backend/.env-prod
+          echo "DB_PASSWORD=${DB_PASSWORD}" >> backend/.env-prod
+          echo "SECRET_KEY=${SECRET_KEY}" >> backend/.env-prod
+          touch postgres/.env-prod
+          echo "POSTGRES_USER=${POSTGRES_USER}" > postgres/.env-prod
+          echo "POSTGRES_DB=${POSTGRES_DB}" >> postgres/.env-prod
+          echo "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}" >> postgres/.env-pord
+      - name: Setup python
+        uses: actions/setup-python@v2
+      - name: Build static files
+        env:
+          ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        run: |
+          cd backend
+          pip3 install Django djangorestframework psycopg2
+          export ALLOWED_HOSTS=${ALLOWED_HOSTS} SECRET_KEY=${SECRET_KEY}
+          python3 manage.py collectstatic --noinput
+          cd static/
+          mv -v * ../../nginx/static/
+          cd ..
+      - name: Setup nodejs
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.0
+      - name: Build frontend files
+        run: |
+          cd frontend
+          npm install
+          npm run build --prod
+          cd dist
+          mv -v * ../../nginx/frontend/
+          cd ../..
+      - name: Build and push
+        env:
+          TAG: ${{ github.event.inputs.tag }}
+          DOCKER_REGISTRY_USERNAME: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
+          DOCKER_REGISTRY_PASSWORD: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+        run: |
+          export TAG=${TAG} && docker-compose -f docker-compose.prod.yml build
+          docker login -u ${DOCKER_REGISTRY_USERNAME} -p ${DOCKER_REGISTRY_PASSWORD}
+          export TAG=${TAG} && docker-compose -f docker-compose.prod.yml push
