@@ -8,6 +8,7 @@ import { DepartmentsComponent } from './components/departments/departments.compo
 import { DepartmentDetailComponent } from './components/department-detail/department-detail.component';
 import { DepartmentCreateComponent } from './components/department-create/department-create.component';
 import { PersonCreateComponent } from './components/person-create/person-create.component';
+import { FilterPipe } from './components/department-detail/pipes/filter.pipe';
 
 
 @NgModule({
@@ -17,7 +18,7 @@ import { PersonCreateComponent } from './components/person-create/person-create.
     HttpClientModule,
     RouterModule
   ],
-  declarations: [DepartmentsComponent, DepartmentDetailComponent, DepartmentCreateComponent, PersonCreateComponent],
+  declarations: [DepartmentsComponent, DepartmentDetailComponent, DepartmentCreateComponent, PersonCreateComponent, FilterPipe],
   exports: [DepartmentsComponent, DepartmentDetailComponent, DepartmentCreateComponent, PersonCreateComponent]
 })
 export class RegistrationDirectoryModule { }

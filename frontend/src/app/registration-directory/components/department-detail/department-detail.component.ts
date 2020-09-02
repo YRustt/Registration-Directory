@@ -17,6 +17,8 @@ export class DepartmentDetailComponent implements OnInit {
   departments;
   staff;
 
+  searchValue;
+
   constructor(private activatedRoute: ActivatedRoute, private departmentDetailService: DepartmentDetailService) { }
 
   ngOnInit() {
